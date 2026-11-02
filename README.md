@@ -1,26 +1,27 @@
-# Template de Segurança Python
+# CTF 02: Senha Fraca
 
-Estrutura base para começar projetos Python com segurança desde o início.
+Projeto criado a partir do [template-seguranca](https://github.com/renanscarmo/template-seguranca)
+para praticar segurança em Python.
 
-## O que já vem pronto
+## Objetivo
 
-- Pipeline no GitHub Actions
-- SAST com Bandit
-- SCA com pip-audit
-- .gitignore protegendo senhas e arquivos locais
+Entrar na área restrita adivinhando a senha do administrador e depois corrigir a falha.
 
-## Como usar
+## Como foi
 
-1. Clique em **Use this template**
-2. Crie seu novo repositório
-3. Troque o exemplo do `app.py` pelo código do seu projeto
-4. Adicione as bibliotecas que você usar no `requirements.txt`
-5. Atualize este README com o nome e a descrição do seu projeto
-6. Faça um commit e veja a aba **Actions**
+1. **Antes:** a senha ficava escrita no código (`admin123`). O ataque foi testar senhas comuns e funcionou.
+2. **Detecção:** o Bandit acusou a senha no código (B105) e o pipeline ficou vermelho.
+3. **Depois:** o código guarda só o hash da senha, lido de uma variável de ambiente. O pipeline ficou verde.
 
-7. ## O que aprendi
+## O que aprendi
 
 - Senhas fracas (como `admin123`) aparecem em listas de vazamentos e são as primeiras testadas
 - Senha escrita no código é detectada pelo Bandit (B105)
 - A correção é guardar só o **hash** da senha, fora do código, numa variável de ambiente
 - Remover um segredo do código não basta: ele continua no histórico do Git
+
+## Ferramentas
+
+- SAST com Bandit
+- SCA com pip-audit
+- GitHub Actions
