@@ -1,10 +1,13 @@
+import os
+
 from flask import Flask, request
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 
 ADMIN_USER = "admin"
-ADMIN_PASSWORD = "admin123"
-FLAG = "FLAG{senha_fraca_e_porta_aberta}"
+SENHA_HASH = os.environ.get("ADMIN_SENHA_HASH", "")
+FLAG = "FLAG{senha_forte_e_porta_fechada}"
 
 FORMULARIO = """
 <h1>Area Restrita</h1>
@@ -19,9 +22,9 @@ FORMULARIO = """
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        usuario = request.form.get("usuario")
-        senha = request.form.get("senha")
-        if usuario == ADMIN_USER and senha == ADMIN_PASSWORD:
+        usuario = request.form.get("usuario", "")
+        senha = request.form.get("senha", "")
+        if usuario == ADMIN_USER and check_password_hash(SENHA_HASH, senha):
             return f"<h1>Bem-vindo, admin!</h1><p>{FLAG}</p>"
         return FORMULARIO + "<p>Usuario ou senha incorretos.</p>"
     return FORMULARIO
